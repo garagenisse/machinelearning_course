@@ -26,8 +26,12 @@ sigma = zeros(1, size(X, 2));
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
 
+% Subtract meanvalue for each column
+mu = mean(X)
+X_norm = X - mean(X);  
 
-
+sigma = std(X)';
+X_norm = X_norm ./ sigma';
 
 
 

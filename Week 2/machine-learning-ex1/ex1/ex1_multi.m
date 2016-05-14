@@ -92,6 +92,7 @@ theta = zeros(3, 1);
 % Plot the convergence graph
 figure;
 plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+
 xlabel('Number of iterations');
 ylabel('Cost J');
 
@@ -105,7 +106,8 @@ fprintf('\n');
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
 price = 0; % You should change this
-
+input = [ 1650, 3];
+price = [ 1, (input-mu)./sigma']*theta
 
 % ============================================================
 
@@ -151,6 +153,7 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 price = 0; % You should change this
 
+price =  [1 1650,3]* theta;
 
 % ============================================================
 
