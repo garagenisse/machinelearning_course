@@ -86,22 +86,16 @@ K = num_labels;
 
 delta_accum_1 = zeros(size(Theta1));
 delta_accum_2 = zeros(size(Theta2));
+ym = zeros(m,K);
 
 for t = 1:m
-	a_1 = X(t,:);  
-	z_2 = a_1 * Theta1';
-	a_2 = [1 sigmoid(z_2)];
-	z_3 = a_2 * Theta2';
-	a_3 = sigmoid(z_3);
-	y_i = zeros(1,K);
-	y_i(y(t)) = 1;
-	
-	delta_3 = a_3 - y_i;
-	delta_2 = delta_3 * Theta2 .* sigmoidGradient([1 z_2]);
-	
-	delta_accum_1 = delta_accum_1 + delta_2(2:end)' * a_1;
-	delta_accum_2 = delta_accum_2 + delta_3' * a_2;
-end;
+  ym(t,y(t)) = 1;
+end
+
+delta_3 = a3 - ym;
+delta_2 = delta_3 * Theta2 .* sigmoidGradient([ones(m,1), z2]);
+delta_accum_1 = delta_accum_1 + delta_2(:,2:end)' * X;
+delta_accum_2 = delta_accum_2 + delta_3' * a2;
 
 Theta1_grad = delta_accum_1 / m;
 Theta2_grad = delta_accum_2 / m;
