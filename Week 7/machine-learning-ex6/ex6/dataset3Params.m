@@ -8,9 +8,11 @@ function [C, sigma] = dataset3Params(X, y, Xval, yval)
 %
 
 % You need to return the following variables correctly.
-C = 1;
-sigma = 0.3;
 
+% Code below was used to find those values...
+C = 1;
+sigma = 0.1;
+return;
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return the optimal C and sigma
 %               learning parameters found using the cross validation set.
@@ -25,12 +27,21 @@ sigma = 0.3;
 
 Ctest = [0.01,0.03,0.1,0.3,1,3,10,30];
 stest = [0.01,0.03,0.1,0.3,1,3,10,30];
-
 [p,q] = meshgrid(Ctest, stest);
-pairs = [p(:) q(:)];
+pairs = [p(:) q(:) zeros(1,64)']
 
+for i=1:rows(pairs)
+  c = pairs(i,1);
+  s = pairs(i,2);
+  
+  model = svmTrain(X,y,c, @(x1, x2) gaussianKernel(x1, x2, s)); 
+  prediction = svmPredict(model,Xval);
+  pairs(i,3) = mean(double(prediction ~= yval));
+end
 
-
+[err, ix] = min(pairs(:,3));
+C = pairs(ix,1);
+sigma = pairs(ix,2);
 
 % =========================================================================
 
